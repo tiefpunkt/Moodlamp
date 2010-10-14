@@ -40,7 +40,7 @@
 #include <avr/eeprom.h>
 
 #define MAX_THREAD_STACK_DEPTH 3
-#define MAX_THREADS 3
+#define MAX_THREADS 1
 
 /* opcodes */
 /* {{{ */
