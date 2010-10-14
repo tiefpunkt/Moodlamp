@@ -1,4 +1,4 @@
-OBJ = main.o pwm.o static_scripts.o rc5.o
+OBJ = main.o pwm.o static_scripts.o rc5.o control.o
 
 # Default values
 OUT           ?= image

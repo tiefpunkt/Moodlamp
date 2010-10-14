@@ -61,6 +61,9 @@ struct flags_t {
     /* set by pwm interrupt after last interrupt in the current cycle, signals
      * the main loop to rebuild the pwm timslot table */
     uint8_t last_pulse:1;
+	
+	/* pauses fading and scripts */
+	uint8_t paused:1;
 };
 
 struct global_t {

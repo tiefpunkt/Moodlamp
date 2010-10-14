@@ -37,7 +37,7 @@
 
 
 /* structs */
-volatile struct global_t global = {{0, 0}};
+volatile struct global_t global = {{0, 0, 0}};
 
 /* prototypes */
 
@@ -347,7 +347,9 @@ void pwm_handler() {
 	* execute all script threads */
 	if (global.flags.new_cycle) {
 		global.flags.new_cycle = 0;
-		update_brightness();
-		execute_script_threads();
+		if (!global.flags.paused) {
+			update_brightness();
+			execute_script_threads();
+		}
 	}
 }

@@ -1,4 +1,6 @@
 /**
+*  RaumZeitLabor Moodlight 
+*
 *  RC5 Remote Receiver 
 *  Based on code by Peter Dannegger (danni@specs.de)
 **/
@@ -7,6 +9,7 @@
 #include <avr/interrupt.h>
 #include "rc5.h"
 #include "static_scripts.h"
+#include "control.h"
 
 
 uint8_t rc5_bit;				// bit value
@@ -23,12 +26,16 @@ void rc5_init(void) {
 void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
   if (rc5_data.newCmd) {		// new RC5-Command recieved
     rc5_data.newCmd = 0;		// reset flag
-    if (rc5_data.addr = 0) { 	// Addr: TV0
+    if (rc5_data.addr == 0) { 	// Addr: TV0
       switch (rc5_data.cmd) {	//
-	//case 16:	// Vol+
-        //case 17:	// Vol-
-	case 48: 	// Pause
-          script_threads[0].flags.disabled = (1 - script_threads[0].flags.disabled);
+        case 16:	// Vol+
+		  control_cmd = CTRL_CMD_BRIGHTNESS_UP;
+		  break;
+        case 17:	// Vol-
+		  control_cmd = CTRL_CMD_BRIGHTNESS_DOWN;
+		  break;
+	    case 48: 	// Pause
+          control_cmd = CTRL_CMD_PAUSE_TOGGLE;
           break;
       }
     }

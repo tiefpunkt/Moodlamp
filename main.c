@@ -1,8 +1,13 @@
+/**
+*  RaumZeitLabor Moodlight 
+*
+**/
+
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 #include "config.h"
-
 
 //#include "can/can.h"
 //#include "can_handler.h"
@@ -14,7 +19,7 @@
 #include "testscript.h"
 
 #include "rc5.h"
-
+#include "control.h"
 
 void init(void)
 {
@@ -47,6 +52,7 @@ int main(void)
 	{
 	//	can_handler();
 		rc5_handler();
+		control_handler();
 		pwm_handler();
 	}
 }
