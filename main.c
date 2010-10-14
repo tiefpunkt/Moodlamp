@@ -1,8 +1,8 @@
 #include <avr/io.h>
-
+#include <avr/interrupt.h>
 
 #include "config.h"
-#include <avr/interrupt.h>
+
 
 //#include "can/can.h"
 //#include "can_handler.h"
@@ -12,6 +12,8 @@
 #include "pwm.h"
 #include "static_scripts.h"
 #include "testscript.h"
+
+#include "rc5.h"
 
 
 void init(void)
@@ -26,6 +28,7 @@ void init(void)
 	//read_can_addr();
 	//turn on interrupts
 	init_pwm();
+	rc5_init();
 	sei();
 }
 
