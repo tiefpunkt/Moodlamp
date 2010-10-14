@@ -46,6 +46,7 @@ int main(void)
 	while (1)
 	{
 	//	can_handler();
+		rc5_handler();
 		pwm_handler();
 	}
 }

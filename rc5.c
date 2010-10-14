@@ -6,6 +6,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "rc5.h"
+#include "static_scripts.h"
 
 
 uint8_t rc5_bit;				// bit value
@@ -19,6 +20,21 @@ void rc5_init(void) {
   TIMSK0 = 1<<TOIE0;			//enable timer interrupt
 }
 
+void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
+  if (rc5_data.newCmd) {		// new RC5-Command recieved
+    rc5_data.newCmd = 0;		// reset flag
+    if (rc5_data.addr = 0) { 	// Addr: TV0
+      switch (rc5_data.cmd) {	//
+	//case 16:	// Vol+
+        //case 17:	// Vol-
+	case 48: 	// Pause
+          script_threads[0].flags.disabled = (1 - script_threads[0].flags.disabled);
+          break;
+      }
+    }
+  }       
+}
+
 ISR (SIG_OVERFLOW0)
 {
   uint16_t tmp = rc5_tmp;			// for faster access
@@ -27,7 +43,9 @@ ISR (SIG_OVERFLOW0)
 
   if( ++rc5_time > RC5_PULSE_MAX ){			// count pulse time
     if( !(tmp & 0x4000) && tmp & 0x2000 )	// only if 14 bits received
-      rc5_data = tmp;
+      rc5_data.addr = (tmp >> 6 & 0x1F);
+      rc5_data.cmd = ((tmp & 0x3F) | (~tmp >> 7 & 0x40));
+      rc5_data.newCmd = 1;
     tmp = 0;
   }
 
