@@ -28,13 +28,21 @@ void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
     rc5_data.newCmd = 0;		// reset flag
     if (rc5_data.addr == 0) { 	// Addr: TV0
       switch (rc5_data.cmd) {	//
+	case 01:
+	case 02:
+	case 03:
+	case 04:
+	case 05:
+	case 06:
+		control_cmd = CTRL_CMD_SET_COLOR;
+		control_param = rc5_data.cmd;
         case 16:	// Vol+
 		  control_cmd = CTRL_CMD_BRIGHTNESS_UP;
 		  break;
         case 17:	// Vol-
 		  control_cmd = CTRL_CMD_BRIGHTNESS_DOWN;
 		  break;
-	    case 48: 	// Pause
+	case 48: 	// Pause
           control_cmd = CTRL_CMD_PAUSE_TOGGLE;
           break;
       }
