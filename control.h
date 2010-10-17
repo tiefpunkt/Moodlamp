@@ -11,10 +11,14 @@
 #define CTRL_CMD_SPEED_UP 0x30
 #define CTRL_CMD_SPEED_DOWN 0x31
 #define CTRL_CMD_SET_COLOR 0x40
+#define CTRL_CMD_RUN_FADING 0x41
 
-#define CTRL_COLOR_RED 1
-#define CTRL_COLOR_GREEN 2
-#define CTRL_COLOR_BLUE 3
+#define CTRL_COLOR_RED 0x01
+#define CTRL_COLOR_GREEN 0x02
+#define CTRL_COLOR_BLUE 0x03
+#define CTRL_COLOR_YELLOW 0x04
+#define CTRL_COLOR_VIOLET 0x05
+#define CTRL_COLOR_WHITE 0x06
 
 volatile uint8_t control_cmd;
 volatile uint8_t control_param;

@@ -21,21 +21,30 @@ void rc5_init(void) {
   RC5_DDR &= ~(1 << RC5_PIN);		//set pin as input
   TCCR0B = 1<<CS02;			//divide by 256
   TIMSK0 = 1<<TOIE0;			//enable timer interrupt
+  rc5_data.newCmd = 0;
 }
 
 void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
   if (rc5_data.newCmd) {		// new RC5-Command recieved
     rc5_data.newCmd = 0;		// reset flag
+
     if (rc5_data.addr == 0) { 	// Addr: TV0
       switch (rc5_data.cmd) {	//
-	case 01:
-	case 02:
-	case 03:
-	case 04:
-	case 05:
-	case 06:
+	case 0x01:
+	case 0x02:
+	case 0x03:
+	case 0x04:
+	case 0x05:
+	case 0x06:
+	case 0x07:
+	case 0x08:
+	case 0x09:
 		control_cmd = CTRL_CMD_SET_COLOR;
 		control_param = rc5_data.cmd;
+		break;
+	case 0x00:
+		control_cmd = CTRL_CMD_RUN_FADING;
+		break;
         case 16:	// Vol+
 		  control_cmd = CTRL_CMD_BRIGHTNESS_UP;
 		  break;
@@ -46,6 +55,7 @@ void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
           control_cmd = CTRL_CMD_PAUSE_TOGGLE;
           break;
       }
+//control_setColor(CTRL_COLOR_BLUE);
     }
   }       
 }
@@ -57,11 +67,14 @@ ISR (SIG_OVERFLOW0)
   TCNT0 = -2;					// 2 * 256 = 512 cycle
 
   if( ++rc5_time > RC5_PULSE_MAX ){			// count pulse time
-    if( !(tmp & 0x4000) && tmp & 0x2000 )	// only if 14 bits received
+    if( !(tmp & 0x4000) && tmp & 0x2000 ) {	// only if 14 bits received
       rc5_data.addr = (tmp >> 6 & 0x1F);
-      rc5_data.cmd = ((tmp & 0x3F) | (~tmp >> 7 & 0x40));
+      //rc5_data.cmd = ((tmp & 0x3F) | (~tmp >> 7 & 0x40));
+      rc5_data.cmd = (tmp & 0x3F);
       rc5_data.newCmd = 1;
-    tmp = 0;
+//      control_setColor(CTRL_COLOR_GREEN);
+      tmp = 0;
+    }
   }
 
   if( (rc5_bit ^ RC5_PORT) & 1<<RC5_PIN ){		// change detect

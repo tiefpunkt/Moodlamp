@@ -5,7 +5,6 @@
 *  Based on code by Peter Dannegger (danni@specs.de)
 **/
 
-
 #define	RC5_DDR		DDRB
 #define	RC5_PORT	PINB
 #define	RC5_PIN		PB0			// IR input low active
@@ -27,3 +26,4 @@ struct rc5data_t {
 };
 
 volatile struct rc5data_t rc5_data;		// store result
+
