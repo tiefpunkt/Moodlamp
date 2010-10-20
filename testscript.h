@@ -4,8 +4,7 @@
 
 
 #include <stdint.h>
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
+//#include <avr/interrupt.h>
 #include <avr/eeprom.h>
 
 #include "static_scripts.h"

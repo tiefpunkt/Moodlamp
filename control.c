@@ -4,6 +4,13 @@
 #include "static_scripts.h"
 #include "testscript.h"
 
+void control_init(void) {
+	init_script_threads();
+	script_threads[0].handler.execute = &memory_handler_eeprom;
+	script_threads[0].handler.position = (uint16_t) &colorchange_red;
+	script_threads[0].flags.disabled = 0; 
+}
+
 void control_handler(void) {
 	if (control_cmd != CTRL_CMD_NONE) {
 		switch (control_cmd) {
@@ -11,17 +18,23 @@ void control_handler(void) {
 				control_setColor(control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
-				control_setColorRGB(0,0,0);;
-				script_threads[0].flags.disabled = 0;
+				control_init();
+				break;	
 			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);
 				break;
-			case CTRL_CMD_PAUSE_ON:
+			case CTRL_CMD_SPEED_UP:
+				script_threads[0].speed_adjustment++;
+				break;
+			case CTRL_CMD_SPEED_DOWN:
+				script_threads[0].speed_adjustment--;
+				break;
+/*			case CTRL_CMD_PAUSE_ON:
 				global.flags.paused = 1;
 				break;
 			case CTRL_CMD_PAUSE_OFF:
 				global.flags.paused = 1;
-				break;
+				break;*/
 		}
 		
 		control_cmd = CTRL_CMD_NONE;
@@ -29,26 +42,18 @@ void control_handler(void) {
 };
 
 void control_setColor(uint8_t color) {
-	switch (color) {
-		case CTRL_COLOR_RED:
-			control_setColorRGB(0xff, 0x00, 0x00);
-			break;
-		case CTRL_COLOR_GREEN:
-			control_setColorRGB(0x00, 0xff, 0x00);
-			break;
-		case CTRL_COLOR_BLUE:
-			control_setColorRGB(0x00, 0x00, 0xff);
-			break;
-		case CTRL_COLOR_YELLOW:
-			control_setColorRGB(0xff,0xff,0x00);
-			break;
-		case CTRL_COLOR_VIOLET:
-			control_setColorRGB(0xff,0xff,0x00);
-			break;
-		case CTRL_COLOR_WHITE:
-			control_setColorRGB(0xff,0xff,0xff);
-			break;
-	}			
+	if (color == CTRL_COLOR_RED) 
+		control_setColorRGB(0xff, 0x00, 0x00);
+	else if (color == CTRL_COLOR_GREEN)
+		control_setColorRGB(0x00, 0xff, 0x00);
+	else if (color == CTRL_COLOR_BLUE)
+		control_setColorRGB(0x00, 0x00, 0xff);
+	else if (color == CTRL_COLOR_YELLOW)
+		control_setColorRGB(0xff,0xff,0x00);
+/*	else if (color == CTRL_COLOR_VIOLET)
+		control_setColorRGB(0xff,0xff,0x00);*/
+	else if (color == CTRL_COLOR_WHITE)
+		control_setColorRGB(0xff,0xff,0xff);
 }
 
 void control_setColorRGB(uint8_t red, uint8_t green, uint8_t blue) {

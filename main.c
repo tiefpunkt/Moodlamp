@@ -4,7 +4,7 @@
 **/
 
 
-#include <avr/io.h>
+//#include <avr/io.h>
 #include <avr/interrupt.h>
 
 #include "config.h"
@@ -15,15 +15,15 @@
 //#include "can/lap.h"
 
 #include "pwm.h"
-#include "static_scripts.h"
-#include "testscript.h"
+//#include "static_scripts.h"
+//#include "testscript.h"
 
 #include "rc5.h"
 #include "control.h"
 
 void init(void)
 {
-	ACSR = _BV(ACD); // Disable Analog Comparator (power save)
+//	ACSR = _BV(ACD); // Disable Analog Comparator (power save)
 
 	//initialize spi port
 //	spi_init();
@@ -34,6 +34,7 @@ void init(void)
 	//turn on interrupts
 	init_pwm();
 	rc5_init();
+	control_init();
 	sei();
 }
 
@@ -43,10 +44,9 @@ int main(void)
 	init();
 	
 	
-	init_script_threads();
-	script_threads[0].handler.execute = &memory_handler_eeprom;
-	script_threads[0].handler.position = (uint16_t) &colorchange_red;
-	script_threads[0].flags.disabled = 0;
+	
+
+//	control_cmd = CTRL_CMD_RUN_FADING;
 
 	while (1)
 	{

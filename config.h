@@ -20,5 +20,7 @@
 // switch off with hauptschalter
 //#define LABOR_MOOD
 
+#define SCRIPT_SPEED_CONTROL 1
+
 
 #endif // ifndef CONFIG_H

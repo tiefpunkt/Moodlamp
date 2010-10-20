@@ -23,6 +23,7 @@
 volatile uint8_t control_cmd;
 volatile uint8_t control_param;
 
+void control_init(void);
 void control_handler(void);
 void control_setColor(uint8_t color);
 void control_setColorRGB(uint8_t red, uint8_t green, uint8_t blue);
