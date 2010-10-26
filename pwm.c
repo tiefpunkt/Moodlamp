@@ -33,7 +33,7 @@
 
 #include "config.h"
 #include "pwm.h"
-#include "static_scripts.h"
+//#include "static_scripts.h"
 
 
 /* structs */
@@ -103,15 +103,15 @@ volatile struct global_pwm_t global_pwm;
 /* FUNCTIONS AND INTERRUPTS */
 
 /** init timer 1 */
-inline void init_timer1(void)
+void init_timer1(void)
 {
 	/* no prescaler, CTC mode */
 	TCCR1B = _BV(CS10) | _BV(WGM12);
 	//TCCR1B = _BV(CS12) | _BV(CS10) | _BV(WGM12);
 	TCCR1A = 0;
-#ifdef _ATMEGA88
+//#ifdef _ATMEGA88
 	TCCR1C = 0;
-#endif
+//#endif
 
 	/* enable timer1 overflow (=output compare 1a)
 	* and output compare 1b interrupt */
@@ -349,7 +349,7 @@ void pwm_handler() {
 		global.flags.new_cycle = 0;
 		if (!global.flags.paused) {
 			update_brightness();
-			execute_script_threads();
+//			execute_script_threads();
 		}
 	}
 }

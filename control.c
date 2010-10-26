@@ -1,14 +1,10 @@
 #include <avr/io.h>
 #include "control.h"
 #include "pwm.h"
-#include "static_scripts.h"
-#include "testscript.h"
+#include "fadingengine.h"
 
 void control_init(void) {
-	init_script_threads();
-	script_threads[0].handler.execute = &memory_handler_eeprom;
-	script_threads[0].handler.position = (uint16_t) &colorchange_red;
-	script_threads[0].flags.disabled = 0; 
+	
 }
 
 void control_handler(void) {
@@ -18,17 +14,17 @@ void control_handler(void) {
 				control_setColor(control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
-				control_init();
+				fe_init();
 				break;	
 			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);
 				break;
-			case CTRL_CMD_SPEED_UP:
+/*			case CTRL_CMD_SPEED_UP:
 				script_threads[0].speed_adjustment++;
 				break;
 			case CTRL_CMD_SPEED_DOWN:
 				script_threads[0].speed_adjustment--;
-				break;
+				break;*/
 /*			case CTRL_CMD_PAUSE_ON:
 				global.flags.paused = 1;
 				break;
@@ -57,7 +53,8 @@ void control_setColor(uint8_t color) {
 }
 
 void control_setColorRGB(uint8_t red, uint8_t green, uint8_t blue) {
-	script_threads[0].flags.disabled = 1;
+//	script_threads[0].flags.disabled = 1;
+	fe_disabled = 1;
 	global_pwm.channels[CHANNEL_RED].speed = 0x600;
 	global_pwm.channels[CHANNEL_RED].target_brightness = red;
 	global_pwm.channels[CHANNEL_GREEN].speed = 0x600;

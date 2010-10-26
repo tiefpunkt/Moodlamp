@@ -10,6 +10,7 @@
 #include "pwm.h"
 #include "rc5.h"
 #include "control.h"
+#include "fadingengine.h"
 //#include "static_scripts.h"
 //#include "testscript.h"
 
@@ -22,7 +23,7 @@ int main(void)
 	rc5_init();
 	control_init();
 	sei();	
-	
+	fe_init();
 	
 
 //	control_cmd = CTRL_CMD_RUN_FADING;
@@ -33,6 +34,7 @@ int main(void)
 		rc5_handler();
 		control_handler();
 		pwm_handler();
+		fe_handler();
 	}
 }
 

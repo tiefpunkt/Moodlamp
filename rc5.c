@@ -8,7 +8,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "rc5.h"
-#include "static_scripts.h"
 #include "control.h"
 
 
