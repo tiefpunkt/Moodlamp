@@ -2,6 +2,7 @@
 #include "control.h"
 #include "pwm.h"
 #include "fadingengine.h"
+#include "usart.h"
 
 void control_init(void) {
 	
@@ -9,6 +10,7 @@ void control_init(void) {
 
 void control_handler(void) {
 	if (control_cmd != CTRL_CMD_NONE) {
+		usart0_putc('C');
 		switch (control_cmd) {
 			case CTRL_CMD_SET_COLOR:
 				control_setColor(control_param);
