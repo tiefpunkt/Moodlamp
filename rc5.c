@@ -7,9 +7,13 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "config.h"
 #include "rc5.h"
 #include "control.h"
 
+#ifdef USART_DEBUG
+#include "usart.h"
+#endif
 
 uint8_t rc5_bit;				// bit value
 uint8_t rc5_time;				// count bit time
@@ -24,6 +28,10 @@ void rc5_init(void) {
 
 void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
   if (rc5_data.newCmd) {		// new RC5-Command recieved
+
+#ifdef USART_DEBUG
+    usart0_putc('R');
+#endif
 
     if (rc5_data.addr == 0) { 	// Addr: TV0
       if (rc5_data.cmd > 0x40 && rc5_data.cmd < 0x4A) {
