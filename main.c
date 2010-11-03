@@ -11,7 +11,10 @@
 #include "rc5.h"
 #include "control.h"
 #include "fadingengine.h"
+
+#ifdef USART_DEBUG
 #include "usart.h"
+#endif
 
 //#include "static_scripts.h"
 //#include "testscript.h"
@@ -21,14 +24,19 @@
 int main(void)
 {
 //	ACSR = _BV(ACD); // Disable Analog Comparator (power save)
+#ifdef USART_DEBUG
 	usart0_init();
+#endif
+
 	init_pwm();
 	rc5_init();
 	control_init();
 	sei();	
 	fe_init();
 
+#ifdef USART_DEBUG
 	usart0_putc('I');
+#endif
 
 //	control_cmd = CTRL_CMD_RUN_FADING;
 

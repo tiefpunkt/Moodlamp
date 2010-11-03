@@ -1,8 +1,12 @@
 #include <avr/io.h>
+#include "config.h"
 #include "control.h"
 #include "pwm.h"
 #include "fadingengine.h"
+
+#ifdef USART_DEBUG
 #include "usart.h"
+#endif
 
 void control_init(void) {
 	
@@ -10,7 +14,11 @@ void control_init(void) {
 
 void control_handler(void) {
 	if (control_cmd != CTRL_CMD_NONE) {
+
+#ifdef USART_DEBUG
 		usart0_putc('C');
+#endif
+
 		switch (control_cmd) {
 			case CTRL_CMD_SET_COLOR:
 				control_setColor(control_param);
