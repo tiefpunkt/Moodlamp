@@ -24,7 +24,6 @@ void rc5_init(void) {
 
 void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
   if (rc5_data.newCmd) {		// new RC5-Command recieved
-    rc5_data.newCmd = 0;		// reset flag
 
     if (rc5_data.addr == 0) { 	// Addr: TV0
       if (rc5_data.cmd > 0x40 && rc5_data.cmd < 0x4A) {
@@ -65,14 +64,16 @@ void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
 		control_cmd = CTRL_CMD_NONE;  
     }}
 //control_setColor(CTRL_COLOR_BLUE);
+    rc5_data.newCmd = 0;		// reset flag
     }
   }       
 }
 
 ISR (SIG_OVERFLOW0)
 {
-  uint16_t tmp = rc5_tmp;			// for faster access
+  if (rc5_data.newCmd == 1) return;
 
+  uint16_t tmp = rc5_tmp;			// for faster access
   TCNT0 = -2;					// 2 * 256 = 512 cycle
 
   if( ++rc5_time > RC5_PULSE_MAX ){			// count pulse time

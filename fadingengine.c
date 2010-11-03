@@ -5,13 +5,14 @@
 uint8_t fe_pos;
 
 void fe_init() {
+    
     control_setColorRGB(0xff, 0x00, 0x00);
     fe_disabled = 0;
     fe_pos = 0;
 }
 
 void fe_handler() {
-    if (!fe_disabled) {
+    if (fe_disabled) return;
 
     if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
         if (fe_pos == 0) {
@@ -27,7 +28,6 @@ void fe_handler() {
 
         fe_pos++;
         if (fe_pos > 2) fe_pos = 0;
-    }
     }
 }
 

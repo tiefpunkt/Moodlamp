@@ -14,7 +14,8 @@ void control_handler(void) {
 				control_setColor(control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
-				fe_init();
+				if (fe_disabled != 0)
+					fe_init();
 				break;	
 			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);

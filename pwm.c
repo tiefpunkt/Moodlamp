@@ -138,7 +138,7 @@ void init_pwm(void) {
 	for (i=0; i<3; i++) {
 		global_pwm.channels[i].brightness = 0;
 		global_pwm.channels[i].target_brightness = 0;
-		global_pwm.channels[i].speed = 0x00200;
+		global_pwm.channels[i].speed = 0x0200;
 		global_pwm.channels[i].flags.target_reached = 0;
 		global_pwm.channels[i].remainder = 0;
 		global_pwm.channels[i].mask = _BV(i+LED_OFFSET);
