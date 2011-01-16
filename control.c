@@ -66,10 +66,16 @@ void control_setColor(uint8_t color) {
 void control_setColorRGB(uint8_t red, uint8_t green, uint8_t blue) {
 //	script_threads[0].flags.disabled = 1;
 	fe_disabled = 1;
+	   
+    global_pwm.channels[CHANNEL_RED].flags.target_reached = 0;
 	global_pwm.channels[CHANNEL_RED].speed = 0x600;
 	global_pwm.channels[CHANNEL_RED].target_brightness = red;
+	
+	global_pwm.channels[CHANNEL_GREEN].flags.target_reached = 0;
 	global_pwm.channels[CHANNEL_GREEN].speed = 0x600;
 	global_pwm.channels[CHANNEL_GREEN].target_brightness = green;
+	
+	global_pwm.channels[CHANNEL_BLUE].flags.target_reached = 0;
 	global_pwm.channels[CHANNEL_BLUE].speed = 0x600;
 	global_pwm.channels[CHANNEL_BLUE].target_brightness = blue;
 }

@@ -5,7 +5,6 @@
 uint8_t fe_pos;
 
 void fe_init() {
-    
     control_setColorRGB(0xff, 0x00, 0x00);
     fe_disabled = 0;
     fe_pos = 0;
