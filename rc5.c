@@ -27,54 +27,50 @@ void rc5_init(void) {
 }
 
 void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
-  if (rc5_data.newCmd) {		// new RC5-Command recieved
+	if (rc5_data.newCmd) {		// new RC5-Command recieved
 
 #ifdef USART_DEBUG
     usart0_putc('R');
 #endif
 
-    if (rc5_data.addr == 0) { 	// Addr: TV0
-      if (rc5_data.cmd > 0x40 && rc5_data.cmd < 0x4A) {
-		control_cmd = CTRL_CMD_SET_COLOR;
-		control_param = (rc5_data.cmd - 0x40);
-      } else { control_cmd = CTRL_CMD_SET_COLOR;
-      switch (rc5_data.cmd) {	//
-	case 0x40:
-		control_cmd = CTRL_CMD_RUN_FADING;
-		break;
-	case 0x2B:
-//		control_cmd = CTRL_CMD_SET_COLOR;
-		control_param = CTRL_COLOR_RED;
-		break;
-	case 0x2C:
-//		control_cmd = CTRL_CMD_SET_COLOR;
-		control_param = CTRL_COLOR_GREEN;
-		break;
-	case 0x2D:
-//		control_cmd = CTRL_CMD_SET_COLOR;
-		control_param = CTRL_COLOR_YELLOW;
-		break;
-	case 0x2E:
-//		control_cmd = CTRL_CMD_SET_COLOR;
-		control_param = CTRL_COLOR_BLUE;
-		break;
-	case 0x2F:
-//		control_cmd = CTRL_CMD_SET_COLOR;
-		control_param = CTRL_COLOR_WHITE;
-		break;
-        case 0x10:	// Vol+
-		control_cmd = CTRL_CMD_SPEED_UP;
-		break;
-        case 0x11:	// Vol-
-		control_cmd = CTRL_CMD_SPEED_DOWN;
-		break;
-	default:
-		control_cmd = CTRL_CMD_NONE;  
-    }}
-//control_setColor(CTRL_COLOR_BLUE);
-    rc5_data.newCmd = 0;		// reset flag
-    }
-  }       
+	if (rc5_data.addr == 0) { 	// Addr: TV0
+		if (rc5_data.cmd > 0x40 && rc5_data.cmd < 0x4A) {
+			control_cmd = CTRL_CMD_SET_COLOR;
+			control_param = (rc5_data.cmd - 0x40);
+		} else {
+			control_cmd = CTRL_CMD_SET_COLOR;
+			switch (rc5_data.cmd) {	//
+				case 0x40:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					break;
+				case 0x2B:
+					control_param = CTRL_COLOR_RED;
+					break;
+				case 0x2C:
+					control_param = CTRL_COLOR_GREEN;
+					break;
+				case 0x2D:
+					control_param = CTRL_COLOR_YELLOW;
+					break;
+				case 0x2E:
+					control_param = CTRL_COLOR_BLUE;
+					break;
+				case 0x2F:
+					control_param = CTRL_COLOR_WHITE;
+					break;
+				case 0x10:	// Vol+
+					control_cmd = CTRL_CMD_SPEED_UP;
+					break;
+				case 0x11:	// Vol-
+					control_cmd = CTRL_CMD_SPEED_DOWN;
+					break;
+				default:
+					control_cmd = CTRL_CMD_NONE;  
+			}
+		}
+		rc5_data.newCmd = 0;		// reset flag
+	}
+	}       
 }
 
 ISR (SIG_OVERFLOW0)

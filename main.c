@@ -3,7 +3,6 @@
 *
 **/
 
-//#include <avr/io.h>
 #include <avr/interrupt.h>
 
 #include "config.h"
@@ -16,14 +15,8 @@
 #include "usart.h"
 #endif
 
-//#include "static_scripts.h"
-//#include "testscript.h"
+int main(void) {
 
-
-
-int main(void)
-{
-//	ACSR = _BV(ACD); // Disable Analog Comparator (power save)
 #ifdef USART_DEBUG
 	usart0_init();
 #endif
@@ -38,11 +31,7 @@ int main(void)
 	usart0_putc('I');
 #endif
 
-//	control_cmd = CTRL_CMD_RUN_FADING;
-
-	while (1)
-	{
-	//	can_handler();
+	while (1) {
 		rc5_handler();
 		control_handler();
 		pwm_handler();

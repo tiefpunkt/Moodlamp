@@ -25,17 +25,17 @@ void control_handler(void) {
 				break;
 			case CTRL_CMD_RUN_FADING:
 				if (fe_disabled != 0)
-					fe_init();
+					fe_start();
 				break;	
 			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);
 				break;
-/*			case CTRL_CMD_SPEED_UP:
-				script_threads[0].speed_adjustment++;
+			case CTRL_CMD_SPEED_UP:
+				fe_speed = fe_speed * 2;
 				break;
 			case CTRL_CMD_SPEED_DOWN:
-				script_threads[0].speed_adjustment--;
-				break;*/
+				fe_speed = fe_speed / 2;
+				break;
 /*			case CTRL_CMD_PAUSE_ON:
 				global.flags.paused = 1;
 				break;
