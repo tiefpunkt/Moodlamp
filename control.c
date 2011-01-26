@@ -34,10 +34,12 @@ void control_handler(void) {
 				global.flags.paused = (1 - global.flags.paused);
 				break;
 			case CTRL_CMD_SPEED_UP:
-				fe_speed = fe_speed * 2;
+				if (fe_speed < 0xf00)
+					fe_speed = fe_speed * 2;
 				break;
 			case CTRL_CMD_SPEED_DOWN:
-				fe_speed = fe_speed / 2;
+				if (fe_speed > 0x10)
+					fe_speed = fe_speed / 2;
 				break;
 /*			case CTRL_CMD_PAUSE_ON:
 				global.flags.paused = 1;
