@@ -58,11 +58,14 @@ void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
 				case 0x2F:
 					control_param = CTRL_COLOR_WHITE;
 					break;
-				case 0x10:	// Vol+
+				case 0x50:	// Vol+
 					control_cmd = CTRL_CMD_SPEED_UP;
 					break;
-				case 0x11:	// Vol-
+				case 0x51:	// Vol-
 					control_cmd = CTRL_CMD_SPEED_DOWN;
+					break;
+				case 0x4C:  // Standby
+					control_cmd = CTRL_CMD_STANDBY;
 					break;
 				default:
 					control_cmd = CTRL_CMD_NONE;  

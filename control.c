@@ -20,6 +20,9 @@ void control_handler(void) {
 #endif
 
 		switch (control_cmd) {
+			case CTRL_CMD_STANDBY:
+				control_setColorRGB(0x00, 0x00, 0x00);
+				break;
 			case CTRL_CMD_SET_COLOR:
 				control_setColor(control_param);
 				break;
