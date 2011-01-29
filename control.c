@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/eeprom.h>
 #include "config.h"
 #include "control.h"
 #include "pwm.h"
@@ -8,7 +9,24 @@
 #include "usart.h"
 #endif
 
+uint8_t current_mode EEMEM = CTRL_CMD_NONE;
+uint8_t current_mode_param EEMEM = 0;
+
+
 void control_init(void) {
+	uint8_t temp = CTRL_CMD_NONE;
+	temp = eeprom_read_byte(&current_mode);
+	switch (temp) {
+		case CTRL_CMD_SET_COLOR:
+			control_cmd = CTRL_CMD_SET_COLOR;
+			control_param = eeprom_read_byte(&current_mode_param);
+			break;
+		case CTRL_CMD_RUN_FADING:
+			control_cmd = CTRL_CMD_RUN_FADING;
+			break;
+		default:
+			control_cmd = CTRL_CMD_RUN_FADING;
+	}
 	
 }
 
@@ -25,10 +43,13 @@ void control_handler(void) {
 				break;
 			case CTRL_CMD_SET_COLOR:
 				control_setColor(control_param);
+				eeprom_write_byte(&current_mode, CTRL_CMD_SET_COLOR);
+				eeprom_write_byte(&current_mode_param, control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
 				if (fe_disabled != 0)
 					fe_start();
+					eeprom_write_byte(&current_mode, CTRL_CMD_RUN_FADING);
 				break;	
 			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);

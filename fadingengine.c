@@ -14,7 +14,7 @@ void fe_init() {
     srand(2342);
 #endif
     fe_speed = 0x40;
-    fe_start();
+    fe_disabled = 1;
 }
 
 void fe_start() {
