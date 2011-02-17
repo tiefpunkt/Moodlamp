@@ -17,13 +17,13 @@ void ir_init() {
 
 ISR(TIMER0_COMPA_vect)
 {
-  //(void) irmp_ISR();                                                        // call irmp ISR
+  (void) irmp_ISR();                                                        // call irmp ISR
   // call other timer interrupt routines...
 }
 
 
 void ir_handler() {
-/*	IRMP_DATA irmp_data;
+	IRMP_DATA irmp_data;
 	
 	if (irmp_get_data (&irmp_data)) {
 		if ( irmp_data.protocol == 2 ) {
@@ -53,5 +53,5 @@ void ir_handler() {
 					break;
 			}
 		}
-	}*/
+	}
 }
