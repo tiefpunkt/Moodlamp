@@ -51,9 +51,9 @@ void control_handler(void) {
 					fe_start();
 					eeprom_write_byte(&current_mode, CTRL_CMD_RUN_FADING);
 				break;	
-			case CTRL_CMD_PAUSE_TOGGLE:
+/*			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);
-				break;
+				break;*/
 			case CTRL_CMD_SPEED_UP:
 				if (fe_speed < 0xf00)
 					fe_speed = fe_speed * 2;
