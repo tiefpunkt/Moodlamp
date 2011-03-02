@@ -7,7 +7,7 @@
 
 #define	RC5_DDR		DDRB
 #define	RC5_PORT	PINB
-#define	RC5_PIN		PB0			// IR input low active
+#define	RC5_PIN		PINB0			// IR input low active
 
 
 #define RC5_TIME 	1.778e-3		// 1.778msec

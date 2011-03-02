@@ -76,7 +76,7 @@ void rc5_handler(void) {		// see http://www.sprut.de/electronic/ir/rc5.htm
 	}       
 }
 
-ISR (SIG_OVERFLOW0)
+ISR (TIMER0_OVF_vect)
 {
   if (rc5_data.newCmd == 1) return;
 
