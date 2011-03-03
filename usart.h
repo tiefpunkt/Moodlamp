@@ -95,6 +95,9 @@
 #elif defined(SIG_UART_RECV)
     #define UART0_RECV_IRQ SIG_UART_RECV
     #define UART0_DATA_IRQ SIG_UART_DATA
+#elif defined(USART_RX_vect)
+    #define UART0_RECV_IRQ USART_RX_vect
+    #define UART0_DATA_IRQ USART_UDRE_vect
 #else
     #define UART0_RECV_IRQ SIG_USART_RECV
     #define UART0_DATA_IRQ SIG_USART_DATA
