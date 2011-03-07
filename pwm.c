@@ -298,7 +298,7 @@ static inline void prepare_next_timeslot(void) {
 /** interrupts*/
 
 /** timer1 overflow (=output compare a) interrupt */
-ISR(SIG_OUTPUT_COMPARE1A) {
+ISR(TIMER1_COMPA_vect) {
 	/* decide if this interrupt is the beginning of a pwm cycle */
 	if (pwm.next_bitmask == 0) {
 		/* output initial values */
@@ -328,7 +328,7 @@ ISR(SIG_OUTPUT_COMPARE1A) {
 }
 
 /** timer1 output compare b interrupt */
-ISR(SIG_OUTPUT_COMPARE1B) {
+ISR(TIMER1_COMPB_vect) {
 	/* normal interrupt, output pre-calculated bitmask */
 	PORT_LED &= ~pwm.next_bitmask;
 

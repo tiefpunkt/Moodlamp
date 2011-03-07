@@ -3,20 +3,20 @@ OBJ = main.o pwm.o ir_wrapper.o irmp.o control.o fadingengine.o
 
 # Default values
 OUT           ?= image
-MCU_TARGET    ?= atmega48
+MCU_TARGET    ?= atmega328p
 MCU_CC        ?= avr-gcc
 MCU_AS	      ?= avr-as
 OPTIMIZE      ?= -Os
 WARNINGS      ?= -Wall -Winline
-DEFS          ?= -DF_CPU=12000000
+DEFS          ?= -DF_CPU=20000000
 CFLAGS        += -mmcu=$(MCU_TARGET) $(OPTIMIZE) $(WARNINGS) $(DEFS) -I.
 ASFLAGS	      += -mmcu=avr5
-LDFLAGS        = -Wl,-Map,$(OUT).map
+LDFLAGS        = -Wl,-Map,$(OUT).map -L/usr/lib64/binutils/avr/2.18/
 
 # External Tools
 OBJCOPY       ?= avr-objcopy
 OBJDUMP       ?= avr-objdump
-FLASHCMD      ?= avrdude -c usbasp -p $(MCU_TARGET) -U flash:w:image.hex
+FLASHCMD      ?= avrdude -c usbasp -p $(MCU_TARGET) -U flash:w:image.hex -U eeprom:w:$(OUT)_eeprom.hex
 ERASECMD      ?= avrdude -c usbasp -p $(MCU_TARGET) -e
 
 #############################################################################
