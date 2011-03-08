@@ -4,7 +4,11 @@
 #include "irmp.h"
 #include "irmpconfig.h"
 #include "control.h"
+#include "fadingengine.h"
+
+#ifdef USART_DEBUG
 #include "usart.h"
+#endif
 
 void ir_init() {
 	// Init Timer
@@ -35,28 +39,44 @@ void ir_handler() {
 #endif
 		if ( irmp_data.protocol == 2 ) {
 			switch ( irmp_data.command ) {
-				case RC_RED:
+				case RC_CHINARGB_RED:
 					control_cmd = CTRL_CMD_SET_COLOR;
 					control_param = CTRL_COLOR_RED;
 					break;
-				case RC_GREEN:
+				case RC_CHINARGB_GREEN:
 					control_cmd = CTRL_CMD_SET_COLOR;
 					control_param = CTRL_COLOR_GREEN;
 					break;
-				case RC_BLUE:
+				case RC_CHINARGB_BLUE:
 					control_cmd = CTRL_CMD_SET_COLOR;
 					control_param = CTRL_COLOR_BLUE;
 					break;
-				case RC_WHITE:
+				case RC_CHINARGB_WHITE:
 					control_cmd = CTRL_CMD_SET_COLOR;
 					control_param = CTRL_COLOR_WHITE;
 					break;
-				case RC_RED4:
+				case RC_CHINARGB_RED4:
 					control_cmd = CTRL_CMD_SET_COLOR;
 					control_param = CTRL_COLOR_YELLOW;
 					break;
-				case RC_FADE:
+				case RC_CHINARGB_SMOOTH:
 					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_SMOOTH;
+					break;
+				case RC_CHINARGB_FADE:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_FADE;
+					break;
+				case RC_CHINARGB_FLASH:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_FLASH;
+					break;
+				case RC_CHINARGB_STROBE:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_STROBE;
+					break;
+				case RC_CHINARGB_OFF:
+					control_cmd = CTRL_CMD_STANDBY;
 					break;
 			}
 		}

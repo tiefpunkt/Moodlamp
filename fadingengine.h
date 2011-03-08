@@ -1,6 +1,14 @@
 #include <avr/io.h>
 
-uint8_t fe_disabled;
+#define FADING_MODE_SMOOTH		1
+#define FADING_MODE_FADE		2
+#define FADING_MODE_FLASH		3
+#define FADING_MODE_STROBE		4
+#define FADING_MODE_DISABLED	5
+
+#define FADING_MODE_DEFAULT		FADING_MODE_SMOOTH
+
+uint8_t fe_mode;
 uint16_t fe_speed;
 
 void fe_init();

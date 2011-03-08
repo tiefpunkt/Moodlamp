@@ -23,9 +23,11 @@ void control_init(void) {
 			break;
 		case CTRL_CMD_RUN_FADING:
 			control_cmd = CTRL_CMD_RUN_FADING;
+			control_param = eeprom_read_byte(&current_mode_param);
 			break;
 		default:
 			control_cmd = CTRL_CMD_RUN_FADING;
+			control_param = FADING_MODE_SMOOTH;
 	}
 	
 }
@@ -40,6 +42,7 @@ void control_handler(void) {
 		switch (control_cmd) {
 			case CTRL_CMD_STANDBY:
 				control_setColorRGB(0x00, 0x00, 0x00);
+				fe_mode = FADING_MODE_DISABLED;
 				break;
 			case CTRL_CMD_SET_COLOR:
 				control_setColor(control_param);
@@ -47,9 +50,12 @@ void control_handler(void) {
 				eeprom_write_byte(&current_mode_param, control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
-				if (fe_disabled != 0)
+				if (fe_mode != control_param) {
+					fe_mode = control_param;
 					fe_start();
 					eeprom_write_byte(&current_mode, CTRL_CMD_RUN_FADING);
+					eeprom_write_byte(&current_mode_param, control_param);
+				}
 				break;	
 /*			case CTRL_CMD_PAUSE_TOGGLE:
 				global.flags.paused = (1 - global.flags.paused);
@@ -87,12 +93,12 @@ void control_setColor(uint8_t color) {
 		control_setColorRGB(0xff,0xff,0x00);*/
 	else if (color == CTRL_COLOR_WHITE)
 		control_setColorRGB(0xff,0xff,0xff);
+	
+	fe_mode = FADING_MODE_DISABLED;
 }
 
 void control_setColorRGB(uint8_t red, uint8_t green, uint8_t blue) {
-//	script_threads[0].flags.disabled = 1;
-	fe_disabled = 1;
-	   
+//	script_threads[0].flags.disabled = 1;	   
     global_pwm.channels[CHANNEL_RED].flags.target_reached = 0;
 	global_pwm.channels[CHANNEL_RED].speed = 0x600;
 	global_pwm.channels[CHANNEL_RED].target_brightness = red;
