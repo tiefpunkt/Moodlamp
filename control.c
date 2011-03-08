@@ -44,6 +44,10 @@ void control_handler(void) {
 				control_setColorRGB(0x00, 0x00, 0x00);
 				fe_mode = FADING_MODE_DISABLED;
 				break;
+			case CTRL_CMD_POWERON:
+				control_init();
+				control_handler();
+				break;
 			case CTRL_CMD_SET_COLOR:
 				control_setColor(control_param);
 				eeprom_write_byte(&current_mode, CTRL_CMD_SET_COLOR);
@@ -89,11 +93,16 @@ void control_setColor(uint8_t color) {
 		control_setColorRGB(0x00, 0x00, 0xff);
 	else if (color == CTRL_COLOR_YELLOW)
 		control_setColorRGB(0xff,0xff,0x00);
-/*	else if (color == CTRL_COLOR_VIOLET)
-		control_setColorRGB(0xff,0xff,0x00);*/
+	else if (color == CTRL_COLOR_VIOLET)
+		control_setColorRGB(0xff,0x00,0xff);
 	else if (color == CTRL_COLOR_WHITE)
 		control_setColorRGB(0xff,0xff,0xff);
-	
+	else if (color == CTRL_COLOR_ORANGE)
+		control_setColorRGB(0xff,0x7f,0x00);
+	else if (color == CTRL_COLOR_LIGHTGREEN)
+		control_setColorRGB(0xf7f,0xff,0x7f);
+	else if (color == CTRL_COLOR_LIGHTBLUE)
+		control_setColorRGB(0xf7f,0x7f,0xff);	
 	fe_mode = FADING_MODE_DISABLED;
 }
 

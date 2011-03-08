@@ -38,12 +38,6 @@ void fe_handler() {
 			fe_fade_channel(CHANNEL_RED,   rand() / (RAND_MAX / 255 + 1), fe_speed);
 			fe_fade_channel(CHANNEL_BLUE,  rand() / (RAND_MAX / 255 + 1), fe_speed);
 		}
-	} else if (fe_mode == FADING_MODE_FLASH) {
-		//if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
-			/* fast flipping random RGB wobbling \o/ (comment out the fe_disabled line for this to work properly)*/
-			control_setColorRGB(rand() / (RAND_MAX / 255 + 1), rand() / (RAND_MAX / 255 + 1), rand() / (RAND_MAX / 255 + 1));
-			_delay_ms(50); //Put this to 50 for epileppi mode, 10 for nice flashing and 0 for fast smooth transisitons
-		//}
 	} else if (fe_mode == FADING_MODE_FADE) {
 		if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
 			if (fe_pos == 0) {
@@ -71,6 +65,21 @@ void fe_handler() {
 			global_pwm.channels[CHANNEL_BLUE].brightness = 0;
 		}
 		fe_pos += 1;
+	} else if (fe_mode == FADING_MODE_FLASH) {
+		if (fe_pos == 0) {
+			global_pwm.channels[CHANNEL_RED].brightness = 255;
+			global_pwm.channels[CHANNEL_GREEN].brightness = 255;
+			global_pwm.channels[CHANNEL_BLUE].brightness = 255;
+		} else if (fe_pos == 128) {
+			control_setColorRGB(0x00, 0x00, 0x00);
+		} 
+		if (fe_pos == 129) {
+			if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
+				fe_pos++;
+			}
+		} else {
+			fe_pos++;
+		}
 	}
 }
 
