@@ -6,7 +6,7 @@
 
 
 // USART Debug Interface
-//#define USART_DEBUG
+//#define USART_DEBUG  1
 
 #ifdef USART_DEBUG
 #define BAUD 9600                    //definiert die Bautrate für den USART.

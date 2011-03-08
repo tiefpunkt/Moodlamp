@@ -24,8 +24,9 @@ int main(void) {
 	init_pwm();
 	ir_init();
 	control_init();
-	sei();	
 	fe_init();
+	
+	sei();
 
 #ifdef USART_DEBUG
 	usart0_putc('I');

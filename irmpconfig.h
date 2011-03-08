@@ -24,7 +24,7 @@
  *---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 #ifndef F_INTERRUPTS
-#define F_INTERRUPTS                            5000   // interrupts per second, min: 10000, max: 15000
+#define F_INTERRUPTS                            10000   // interrupts per second, min: 10000, max: 15000
 #endif
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@
 #define IRMP_PORT                               PORTB
 #define IRMP_DDR                                DDRB
 #define IRMP_PIN                                PINB
-#define IRMP_BIT                                0       // use PB6 as IR input on AVR
+#define IRMP_BIT                                PB0       // use PB6 as IR input on AVR
 
 #define input(x)                                ((x) & (1 << IRMP_BIT))
 #endif
