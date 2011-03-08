@@ -7,4 +7,4 @@ AVR ATmega32 based RGB lamp, which can be controlled by IR remote controls.
 * USART library from somewhere, can't find the sources right now...
 
 ##Website
-For more information, visit http://raumzeitlabor.de/wiki/Moodlamp
+For more information, visit [http://raumzeitlabor.de/wiki/Moodlamp]
