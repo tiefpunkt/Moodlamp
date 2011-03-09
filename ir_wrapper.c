@@ -37,7 +37,7 @@ void ir_handler() {
 #ifdef USART_DEBUG
 		usart0_putc('R');
 #endif
-		if ( irmp_data.protocol == 2 ) {
+		if ( irmp_data.protocol == IRMP_NEC_PROTOCOL ) {   // China RGB Remote
 			switch ( irmp_data.command ) {
 				case RC_CHINARGB_RED:
 					control_cmd = CTRL_CMD_SET_COLOR;
@@ -111,6 +111,54 @@ void ir_handler() {
 					control_cmd = CTRL_CMD_SPEED_DOWN;
 					break;
 				
+			}
+		} else if ( irmp_data.protocol == IRMP_RC5_PROTOCOL ) {   // RC5 Remote
+			switch ( irmp_data.command ) {
+				case RC_RC5_STANDBY:
+					control_cmd = CTRL_CMD_STANDBY;
+					break;
+				case RC_RC5_NUM1:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_SMOOTH;
+					break;
+				case RC_RC5_NUM2:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_FADE;
+					break;
+				case RC_RC5_NUM3:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_STROBE;
+					break;
+				case RC_RC5_NUM4:
+					control_cmd = CTRL_CMD_RUN_FADING;
+					control_param = FADING_MODE_FLASH;
+					break;
+				case RC_RC5_RED:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_RED;
+					break;
+				case RC_RC5_GREEN:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_GREEN;
+					break;
+				case RC_RC5_YELLOW:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_YELLOW;
+					break;
+				case RC_RC5_BLUE:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_BLUE;
+					break;
+				case RC_RC5_AV:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_WHITE;
+					break;
+				case RC_RC5_VOLUP:
+					control_cmd = CTRL_CMD_SPEED_UP;
+					break;
+				case RC_RC5_VOLDOWN:
+					control_cmd = CTRL_CMD_SPEED_DOWN;
+					break;
 			}
 		}
 	}

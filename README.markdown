@@ -1,5 +1,5 @@
 #RaumZeitLabor Moodlamp
-AVR ATmega32 based RGB lamp, which can be controlled by IR remote controls.
+AVR ATmega328p based RGB lamp, which can be controlled by IR remote controls.
 
 ## Inspiration
 * PWM-coding from [Labor Licht](http://das-labor.org/wiki/Labor_Licht) project by [Das Labor](http://das-labor.org/)

@@ -100,9 +100,9 @@ void control_setColor(uint8_t color) {
 	else if (color == CTRL_COLOR_ORANGE)
 		control_setColorRGB(0xff,0x7f,0x00);
 	else if (color == CTRL_COLOR_LIGHTGREEN)
-		control_setColorRGB(0xf7f,0xff,0x7f);
+		control_setColorRGB(0x7f,0xff,0x7f);
 	else if (color == CTRL_COLOR_LIGHTBLUE)
-		control_setColorRGB(0xf7f,0x7f,0xff);	
+		control_setColorRGB(0x7f,0x7f,0xff);	
 	fe_mode = FADING_MODE_DISABLED;
 }
 
