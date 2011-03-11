@@ -102,7 +102,37 @@ void control_setColor(uint8_t color) {
 	else if (color == CTRL_COLOR_LIGHTGREEN)
 		control_setColorRGB(0x7f,0xff,0x7f);
 	else if (color == CTRL_COLOR_LIGHTBLUE)
-		control_setColorRGB(0x7f,0x7f,0xff);	
+		control_setColorRGB(0x7f,0x7f,0xff);
+	else if (color == CTRL_COLOR_HUE_0)
+		control_setColorRGB(0xff,0x00,0x00);
+	else if (color == CTRL_COLOR_HUE_24)
+		control_setColorRGB(0xff,0x66,0x00);
+	else if (color == CTRL_COLOR_HUE_48)
+		control_setColorRGB(0xff,0xcc,0x00);
+	else if (color == CTRL_COLOR_HUE_72)
+		control_setColorRGB(0xcc,0xff,0x00);
+	else if (color == CTRL_COLOR_HUE_96)
+		control_setColorRGB(0x66,0xff,0x00);
+	else if (color == CTRL_COLOR_HUE_120)
+		control_setColorRGB(0x00,0xff,0x00);
+	else if (color == CTRL_COLOR_HUE_144)
+		control_setColorRGB(0x00,0xff,0x66);
+	else if (color == CTRL_COLOR_HUE_168)
+		control_setColorRGB(0x00,0xff,0xcc);
+	else if (color == CTRL_COLOR_HUE_192)
+		control_setColorRGB(0x00,0xcc,0xff);
+	else if (color == CTRL_COLOR_HUE_222)
+		control_setColorRGB(0x00,0x4c,0xff);
+	else if (color == CTRL_COLOR_HUE_246)
+		control_setColorRGB(0x00,0x00,0xff);
+	else if (color == CTRL_COLOR_HUE_270)
+		control_setColorRGB(0x80,0x00,0xff);
+	else if (color == CTRL_COLOR_HUE_294)
+		control_setColorRGB(0xe6,0x00,0xff);
+	else if (color == CTRL_COLOR_HUE_318)
+		control_setColorRGB(0xff,0x00,0xb3);
+	else if (color == CTRL_COLOR_HUE_318)
+		control_setColorRGB(0xff,0x04,0x4d);
 	fe_mode = FADING_MODE_DISABLED;
 }
 

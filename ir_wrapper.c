@@ -41,42 +41,63 @@ void ir_handler() {
 			switch ( irmp_data.command ) {
 				case RC_CHINARGB_RED:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_RED;
+					control_param = CTRL_COLOR_HUE_0;
 					break;
 				case RC_CHINARGB_RED1:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_24;
+					break;
 				case RC_CHINARGB_RED2:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_ORANGE;
+					control_param = CTRL_COLOR_HUE_48;
 					break;
 				case RC_CHINARGB_RED3:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_72;
+					break;
 				case RC_CHINARGB_RED4:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_YELLOW;
+					control_param = CTRL_COLOR_HUE_96;
 					break;
 				case RC_CHINARGB_GREEN:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_GREEN;
+					control_param = CTRL_COLOR_HUE_120;
 					break;
 				case RC_CHINARGB_GREEN1:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_LIGHTGREEN;
+					control_param = CTRL_COLOR_HUE_144;
 					break;
 				case RC_CHINARGB_GREEN2:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_168;
+					break;
 				case RC_CHINARGB_GREEN3:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_LIGHTBLUE;
+					control_param = CTRL_COLOR_HUE_192;
 					break;
 				case RC_CHINARGB_GREEN4:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_222;
+					break;
 				case RC_CHINARGB_BLUE:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_246;
+					break;
 				case RC_CHINARGB_BLUE1:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_BLUE;
+					control_param = CTRL_COLOR_HUE_270;
 					break;
 				case RC_CHINARGB_BLUE2:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_294;
+					break;
 				case RC_CHINARGB_BLUE3:
+					control_cmd = CTRL_CMD_SET_COLOR;
+					control_param = CTRL_COLOR_HUE_318;
+					break;
 				case RC_CHINARGB_BLUE4:
 					control_cmd = CTRL_CMD_SET_COLOR;
-					control_param = CTRL_COLOR_VIOLET;
+					control_param = CTRL_COLOR_HUE_342;
 					break;
 				case RC_CHINARGB_WHITE:
 					control_cmd = CTRL_CMD_SET_COLOR;

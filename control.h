@@ -25,6 +25,24 @@
 #define CTRL_COLOR_LIGHTGREEN	0x08
 #define CTRL_COLOR_LIGHTBLUE	0x09
 
+// Hue-calculated values for the china remote
+#define CTRL_COLOR_HUE_0        0x60	// Red
+#define CTRL_COLOR_HUE_24       0x61	// Orange
+#define CTRL_COLOR_HUE_48		0x62	// Redish Yellow
+#define CTRL_COLOR_HUE_72		0x63	// Greenish Yellow
+#define CTRL_COLOR_HUE_96		0x64	// Acid Green
+#define CTRL_COLOR_HUE_120		0x65	// Intense Green
+#define CTRL_COLOR_HUE_144		0x66	// Blueish green
+#define CTRL_COLOR_HUE_168		0x67	// Turquise
+#define CTRL_COLOR_HUE_192		0x68	// Intensive Turquise
+#define CTRL_COLOR_HUE_222		0x69	// Blue
+#define CTRL_COLOR_HUE_246		0x70	// Intensive Blue
+#define CTRL_COLOR_HUE_270		0x71	// Lila
+#define CTRL_COLOR_HUE_294		0x72	// Pink
+#define CTRL_COLOR_HUE_318		0x73	// Rose
+#define CTRL_COLOR_HUE_342		0x74	// Pink Red
+
+
 volatile uint8_t control_cmd;
 volatile uint8_t control_param;
 
