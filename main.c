@@ -7,7 +7,7 @@
 
 #include "config.h"
 #include "pwm.h"
-#include "rc5.h"
+#include "ir_wrapper.h"
 #include "control.h"
 #include "fadingengine.h"
 
@@ -22,17 +22,18 @@ int main(void) {
 #endif
 
 	init_pwm();
-	rc5_init();
+	ir_init();
 	control_init();
-	sei();	
 	fe_init();
+	
+	sei();
 
 #ifdef USART_DEBUG
 	usart0_putc('I');
 #endif
 
 	while (1) {
-		rc5_handler();
+		ir_handler();
 		control_handler();
 		pwm_handler();
 		fe_handler();
