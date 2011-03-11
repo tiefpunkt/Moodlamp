@@ -75,7 +75,12 @@
 #define IRMP_PORT                               PORTB
 #define IRMP_DDR                                DDRB
 #define IRMP_PIN                                PINB
-#define IRMP_BIT                                PB0       // use PB6 as IR input on AVR
+// Check for older headers. Newer headers use PORTB0 instead of PB0
+#ifdef PB0
+#define IRMP_BIT				PB0
+#else
+#define IRMP_BIT                                PORTB0       // use PB6 as IR input on AVR
+#endif
 
 #define input(x)                                ((x) & (1 << IRMP_BIT))
 #endif
