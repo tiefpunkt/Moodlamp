@@ -7,7 +7,7 @@ AVR ATmega328p based RGB lamp, which can be controlled by IR remote controls.
 * USART library from [this library](http://www.wiki.elektronik-projekt.de/mikrocontroller/avr/avr-gcc-library/start)
 
 ## Flashing the binary
-We maintain a binary version of the code within this repository (folder "bin"), since some people don't have an appropiriate toolchain for avr. It could be that the binary is a bit out of date; if you want an up-to-date binary, please build it yourself.
+We maintain a binary version of the code, since some people don't have an appropiriate toolchain for avr. You can find it on the GitHub page under [Downloads](https://github.com/tiefpunkt/Moodlamp/archives/master). It could be that the binary is a bit out of date; if you want an up-to-date binary, please build it yourself.
 
 In order to flash the binary, you need to have avrdude installed. Call it with:
 
