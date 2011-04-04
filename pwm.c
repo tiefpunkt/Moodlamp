@@ -269,6 +269,8 @@ void update_brightness(void) {
 			if (global_pwm.channels[i].brightness == global_pwm.channels[i].target_brightness) {
 				global_pwm.channels[i].flags.target_reached = 1;
 			}
+		} else {
+			global_pwm.channels[i].flags.target_reached = 1;
 		}
 	}
 }
