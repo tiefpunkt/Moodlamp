@@ -11,10 +11,10 @@
 #include "control.h"
 #include "pwm.h"
 #include "fadingengine.h"
-#include <stdio.h>
 
 #ifdef USART_DEBUG
 #include "usart.h"
+#include <stdio.h>
 #endif
 
 // Last command saved to eeprom for restore after power cycling

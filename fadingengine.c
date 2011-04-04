@@ -9,10 +9,13 @@
 #include "pwm.h"
 #include "control.h"
 #include "config.h"
-#include "usart.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <util/delay.h>
+
+#ifdef USART_DEBUG
+#include "usart.h"
+#endif
 
 uint8_t fe_pos;
 
