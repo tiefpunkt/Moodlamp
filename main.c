@@ -29,7 +29,7 @@ int main(void) {
 	sei();
 
 #ifdef USART_DEBUG
-	usart0_putc('I');
+	usart0_puts("Initialized\n\r");
 #endif
 
 	while (1) {

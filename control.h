@@ -46,6 +46,8 @@
 volatile uint8_t control_cmd;
 volatile uint8_t control_param;
 
+const char msgbuf[128];
+
 void control_init(void);
 void control_handler(void);
 void control_setColor(uint8_t color);

@@ -3,7 +3,9 @@
 #include "config.h"
 #include "control.h"
 #include "pwm.h"
+#include "usart.h"
 #include "fadingengine.h"
+#include <stdio.h>
 
 #ifdef USART_DEBUG
 #include "usart.h"
@@ -11,7 +13,6 @@
 
 uint8_t current_mode EEMEM = CTRL_CMD_NONE;
 uint8_t current_mode_param EEMEM = 0;
-
 
 void control_init(void) {
 	uint8_t temp = CTRL_CMD_NONE;
@@ -33,27 +34,41 @@ void control_init(void) {
 }
 
 void control_handler(void) {
+
 	if (control_cmd != CTRL_CMD_NONE) {
 
 #ifdef USART_DEBUG
-		usart0_putc('C');
+		usart0_puts("INCMD\n\r");
 #endif
 
 		switch (control_cmd) {
 			case CTRL_CMD_STANDBY:
+
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_STANDBY\n\r");
+#endif
 				control_setColorRGB(0x00, 0x00, 0x00);
 				fe_mode = FADING_MODE_DISABLED;
 				break;
 			case CTRL_CMD_POWERON:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_POWERON\n\r");
+#endif
 				control_init();
 				control_handler();
 				break;
 			case CTRL_CMD_SET_COLOR:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_SET_COLOR\n\r");
+#endif
 				control_setColor(control_param);
 				eeprom_write_byte(&current_mode, CTRL_CMD_SET_COLOR);
 				eeprom_write_byte(&current_mode_param, control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_RUN_FADING\n\r");
+#endif
 				if (fe_mode != control_param) {
 					fe_mode = control_param;
 					fe_start();
@@ -65,12 +80,29 @@ void control_handler(void) {
 				global.flags.paused = (1 - global.flags.paused);
 				break;*/
 			case CTRL_CMD_SPEED_UP:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_SPEED_UP\n\r");
+#endif
 				if (fe_speed < 0xf00)
 					fe_speed = fe_speed * 2;
+
+#ifdef USART_DEBUG
+		sprintf(msgbuf, "SPEED IS NOW %d\n\r", fe_speed);
+		usart0_puts(msgbuf);
+#endif
+
 				break;
 			case CTRL_CMD_SPEED_DOWN:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_SPEED_DOWN\n\r");
+#endif
 				if (fe_speed > 0x10)
 					fe_speed = fe_speed / 2;
+
+#ifdef USART_DEBUG
+		sprintf(msgbuf, "SPEED IS NOW %d\n\r", fe_speed);
+		usart0_puts(msgbuf);
+#endif
 				break;
 /*			case CTRL_CMD_PAUSE_ON:
 				global.flags.paused = 1;

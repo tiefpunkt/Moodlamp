@@ -1,7 +1,9 @@
 #include "fadingengine.h"
 #include "pwm.h"
 #include "control.h"
-
+#include "config.h"
+#include "usart.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <util/delay.h>
 
@@ -29,49 +31,88 @@ void fe_start() {
 	}
 }
 
+int fe_create_random_channel_target () {
+	int value;
+
+	/* We only generate a simple random value for now.
+	 * Later we can extend this to have minimum or maximum values.
+	 */
+	value = rand() / (RAND_MAX / 255 + 1);
+
+	return value;
+
+}
 void fe_handler() {
+	uint8_t red, green, blue;
+
     if (fe_mode == FADING_MODE_DISABLED) return;
 
 	if (fe_mode == FADING_MODE_SMOOTH) {
 		if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
 		/* slow random fading... */
-			fe_fade_channel(CHANNEL_GREEN, rand() / (RAND_MAX / 255 + 1), fe_speed);
-			fe_fade_channel(CHANNEL_RED,   rand() / (RAND_MAX / 255 + 1), fe_speed);
-			fe_fade_channel(CHANNEL_BLUE,  rand() / (RAND_MAX / 255 + 1), fe_speed);
+			red = fe_create_random_channel_target();
+			green = fe_create_random_channel_target();
+			blue = fe_create_random_channel_target();
+
+#ifdef USART_DEBUG
+		sprintf(msgbuf, "Activating new FADING_MODE_SMOOTH target with RGB(%d, %d, %d)\n\r", red, green, blue);
+		usart0_puts(msgbuf);
+#endif
+
+			fe_fade_channel(CHANNEL_GREEN, green	, fe_speed);
+			fe_fade_channel(CHANNEL_RED,   red		, fe_speed);
+			fe_fade_channel(CHANNEL_BLUE,  blue		, fe_speed);
 		}
 	} else if (fe_mode == FADING_MODE_FADE) {
-/*		if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
-			if (fe_pos == 0) {
-				fe_fade_channel(CHANNEL_RED, 0, fe_speed);
-				fe_fade_channel(CHANNEL_GREEN, 255, fe_speed);
-			} else if (fe_pos == 1) {
-				fe_fade_channel(CHANNEL_GREEN, 0, fe_speed);
-				fe_fade_channel(CHANNEL_BLUE, 255, fe_speed);
-			} else if (fe_pos == 2) {
-				fe_fade_channel(CHANNEL_BLUE, 0, fe_speed);
-				fe_fade_channel(CHANNEL_RED, 255, fe_speed);
-			}
+		/**
+		 * For FADING_MODE_FADE, fe_pos is either 0 or 1.
+		 *
+		 * If fe_pos is 0, we fade to a random generated color.
+		 * If fe_pos is 1, we fade back to RGB(0,0,0)
+		 */
 
-			fe_pos++;
-			if (fe_pos > 2) fe_pos = 0;
-		}*/
+		/* Check if the fade is finished. If yes, create new fade target */
 		if (fe_channels_finished(_BV(CHANNEL_RED)|_BV(CHANNEL_GREEN)|_BV(CHANNEL_BLUE))) {
 			if (fe_pos == 0) {
-				fe_fade_channel(CHANNEL_GREEN, rand() / (RAND_MAX / 255 + 1), fe_speed);
-				fe_fade_channel(CHANNEL_RED,   rand() / (RAND_MAX / 255 + 1), fe_speed);
-				fe_fade_channel(CHANNEL_BLUE,  rand() / (RAND_MAX / 255 + 1), fe_speed);
+
+				/* Create random color */
+				red = fe_create_random_channel_target();
+				green = fe_create_random_channel_target();
+				blue = fe_create_random_channel_target();
+
+#ifdef USART_DEBUG
+				sprintf(msgbuf, "Activating new FADING_MODE_FADE target with RGB(%d, %d, %d)\n\r", red, green, blue);
+				usart0_puts(msgbuf);
+#endif
+
+				fe_fade_channel(CHANNEL_GREEN, 	green	, fe_speed);
+				fe_fade_channel(CHANNEL_BLUE, 	blue	, fe_speed);
+				fe_fade_channel(CHANNEL_RED, 	red		, fe_speed);
+
 			} else if (fe_pos == 1) {
+				/* Fade back to off */
+#ifdef USART_DEBUG
+				usart0_puts("Activating new FADING_MODE_FADE target with channels OFF\n\r");
+#endif
 				fe_fade_channel(CHANNEL_GREEN, 0, fe_speed);
 				fe_fade_channel(CHANNEL_BLUE, 0, fe_speed);
 				fe_fade_channel(CHANNEL_RED, 0, fe_speed);
+			} else {
+				/* Sanity: If fe_pos is neither 0 or 1 in FADING_MODE_FADE, set it to 0. */
+#ifdef USART_DEBUG
+				usart0_puts("Would have failed NOW\n\r");
+#endif
+
+				fe_pos = 0;
 			}
+
 			fe_pos = 1 - fe_pos;
 		}
 	} else if (fe_mode == FADING_MODE_STROBE) {
 		if (fe_pos == 0) {
-			global_pwm.channels[CHANNEL_RED].brightness = rand() / (RAND_MAX / 255 + 1);
-			global_pwm.channels[CHANNEL_GREEN].brightness = rand() / (RAND_MAX / 255 + 1);
-			global_pwm.channels[CHANNEL_BLUE].brightness = rand() / (RAND_MAX / 255 + 1);
+			global_pwm.channels[CHANNEL_RED].brightness = fe_create_random_channel_target();
+			global_pwm.channels[CHANNEL_GREEN].brightness = fe_create_random_channel_target();
+			global_pwm.channels[CHANNEL_BLUE].brightness = rand() / fe_create_random_channel_target();
 		} else if (fe_pos == 128) {
 			global_pwm.channels[CHANNEL_RED].brightness = 0;
 			global_pwm.channels[CHANNEL_GREEN].brightness = 0;
