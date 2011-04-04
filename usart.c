@@ -100,6 +100,15 @@ void usart0_putc( char data )
     UCSR0B |= (1<<UDRIE0);
 }
 
+void usart0_puts ( char *s)
+{
+	while (*s) {
+		usart0_putc(*s);
+		s++;
+	}
+
+}
+
 char usart0_data_received( void )
 {
     return ( USART0_RxHead != USART0_RxTail );
