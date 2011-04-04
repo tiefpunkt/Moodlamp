@@ -4,6 +4,7 @@
 #include "irmp.h"
 #include "irmpconfig.h"
 #include "control.h"
+#include "config.h"
 #include "fadingengine.h"
 
 #ifdef USART_DEBUG
@@ -35,7 +36,7 @@ void ir_handler() {
 	if (irmp_get_data (&irmp_data)) {
 
 #ifdef USART_DEBUG
-		usart0_putc('R');
+		usart0_puts("Received IR data\n\r");
 #endif
 		if ( irmp_data.protocol == IRMP_NEC_PROTOCOL ) {   // China RGB Remote
 			switch ( irmp_data.command ) {
