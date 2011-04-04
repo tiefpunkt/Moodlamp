@@ -1,7 +1,13 @@
+/**
+* RaumZeitLabor Moodlight 
+* http://raumzeitlabor.de/wiki/Moodlamp
+*
+* ir_wrapper.h - wrapper for IRMP for recieving IR commands
+**/
+
+
 
 /* 		RC Commands		*/
-
-
 
 //	Functions on Remote Control
 #define RC_CHINARGB_BRIGHTER	5		

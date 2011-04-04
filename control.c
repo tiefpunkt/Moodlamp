@@ -1,18 +1,27 @@
+/**
+* RaumZeitLabor Moodlight 
+* http://raumzeitlabor.de/wiki/Moodlamp
+*
+* control.c - Interface between lamp and control data sources (ir etc.)
+**/
+
 #include <avr/io.h>
 #include <avr/eeprom.h>
 #include "config.h"
 #include "control.h"
 #include "pwm.h"
 #include "fadingengine.h"
+#include <stdio.h>
 
 #ifdef USART_DEBUG
 #include "usart.h"
 #endif
 
+// Last command saved to eeprom for restore after power cycling
 uint8_t current_mode EEMEM = CTRL_CMD_NONE;
 uint8_t current_mode_param EEMEM = 0;
 
-
+// Init Moodlamp operation
 void control_init(void) {
 	uint8_t temp = CTRL_CMD_NONE;
 	temp = eeprom_read_byte(&current_mode);
@@ -32,28 +41,43 @@ void control_init(void) {
 	
 }
 
+// Handle passed control commands
 void control_handler(void) {
+
 	if (control_cmd != CTRL_CMD_NONE) {
 
 #ifdef USART_DEBUG
-		usart0_putc('C');
+		usart0_puts("INCMD\n\r");
 #endif
 
 		switch (control_cmd) {
 			case CTRL_CMD_STANDBY:
+
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_STANDBY\n\r");
+#endif
 				control_setColorRGB(0x00, 0x00, 0x00);
 				fe_mode = FADING_MODE_DISABLED;
 				break;
 			case CTRL_CMD_POWERON:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_POWERON\n\r");
+#endif
 				control_init();
 				control_handler();
 				break;
 			case CTRL_CMD_SET_COLOR:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_SET_COLOR\n\r");
+#endif
 				control_setColor(control_param);
 				eeprom_write_byte(&current_mode, CTRL_CMD_SET_COLOR);
 				eeprom_write_byte(&current_mode_param, control_param);
 				break;
 			case CTRL_CMD_RUN_FADING:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_RUN_FADING\n\r");
+#endif
 				if (fe_mode != control_param) {
 					fe_mode = control_param;
 					fe_start();
@@ -65,12 +89,29 @@ void control_handler(void) {
 				global.flags.paused = (1 - global.flags.paused);
 				break;*/
 			case CTRL_CMD_SPEED_UP:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_SPEED_UP\n\r");
+#endif
 				if (fe_speed < 0xf00)
 					fe_speed = fe_speed * 2;
+
+#ifdef USART_DEBUG
+		sprintf(msgbuf, "SPEED IS NOW %d\n\r", fe_speed);
+		usart0_puts(msgbuf);
+#endif
+
 				break;
 			case CTRL_CMD_SPEED_DOWN:
+#ifdef USART_DEBUG
+		usart0_puts("CTRL_CMD_SPEED_DOWN\n\r");
+#endif
 				if (fe_speed > 0x10)
 					fe_speed = fe_speed / 2;
+
+#ifdef USART_DEBUG
+		sprintf(msgbuf, "SPEED IS NOW %d\n\r", fe_speed);
+		usart0_puts(msgbuf);
+#endif
 				break;
 /*			case CTRL_CMD_PAUSE_ON:
 				global.flags.paused = 1;
@@ -84,6 +125,7 @@ void control_handler(void) {
 	}
 };
 
+// Fade to a color given as CTRL_COLOR_* command
 void control_setColor(uint8_t color) {
 	if (color == CTRL_COLOR_RED) 
 		control_setColorRGB(0xff, 0x00, 0x00);
@@ -136,6 +178,7 @@ void control_setColor(uint8_t color) {
 	fe_mode = FADING_MODE_DISABLED;
 }
 
+// Fade to a given RGB value
 void control_setColorRGB(uint8_t red, uint8_t green, uint8_t blue) {
 //	script_threads[0].flags.disabled = 1;	   
     global_pwm.channels[CHANNEL_RED].flags.target_reached = 0;

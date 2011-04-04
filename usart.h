@@ -129,6 +129,13 @@ char usart0_getc( void );
 void usart0_putc( char data );
 
 /**----------------------------------
+ * @brief   Sends a string to USART
+ * @param   string to send
+ * @return  void
+ *----------------------------------*/
+void usart0_puts ( char *s );
+
+/**----------------------------------
  * @brief   Test if received char is in Buffer
  * @param   void
  * @return  Return 0 (FALSE) if the receive buffer is empty

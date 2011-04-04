@@ -1,3 +1,10 @@
+/**
+* RaumZeitLabor Moodlight 
+* http://raumzeitlabor.de/wiki/Moodlamp
+*
+* fadingengine.h - Fading Engine with 4 different modes
+**/
+
 #include <avr/io.h>
 
 #define FADING_MODE_SMOOTH		1

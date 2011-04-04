@@ -1,5 +1,8 @@
 /**
 * RaumZeitLabor Moodlight 
+* http://raumzeitlabor.de/wiki/Moodlamp
+*
+* control.h - Interface between lamp and control data sources (ir etc.)
 **/
 
 #define CTRL_CMD_NONE 				0x00
@@ -45,6 +48,8 @@
 
 volatile uint8_t control_cmd;
 volatile uint8_t control_param;
+
+const char msgbuf[128];
 
 void control_init(void);
 void control_handler(void);
